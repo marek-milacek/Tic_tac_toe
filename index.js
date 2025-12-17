@@ -21,13 +21,13 @@ const GameController = (() => {
 
         if (checkWinner()) {
             gameOver = true;
-            console.log(currentPlayer.name + " vyhrál!");
+            console.log(currentPlayer.name + " won!");
             return;
         }
 
         if (checkDraw()) {
             gameOver = true;
-            console.log("Remíza!");
+            console.log("Draw!");
             return;
         }
 
