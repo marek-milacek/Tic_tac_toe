@@ -1,3 +1,33 @@
+const Gameboard = (() => {
+    let board = ["", "", "", "", "", "", "", "", ""];
+    
+    const setMark = (index, mark) => {
+        if (board[index] === "") {
+            board[index] = mark;
+            return true;
+        }
+        return false;
+    };
+    
+    const getBoard = () => {
+        return board;
+    };
+    
+    const reset = () => {
+        board = ["", "", "", "", "", "", "", "", ""];
+    };
+    
+    return { setMark, getBoard, reset };
+})();
+
+
+const Player = (name, mark) => {
+    return {name, mark};
+};
+
+const player1 = Player("Player1", "X");
+const player2 = Player("Player2", "O");
+
 const GameController = (() => {
     let currentPlayer = player1;
     let gameOver = false;
@@ -21,17 +51,16 @@ const GameController = (() => {
 
         if (checkWinner()) {
             gameOver = true;
-            console.log(currentPlayer.name + " won!");
-            return;
+            return "win";
         }
 
         if (checkDraw()) {
             gameOver = true;
-            console.log("Draw!");
-            return;
+            return "draw";
         }
 
         switchPlayer();
+        return "continue";
     };
 
     const checkWinner = () => {
@@ -63,5 +92,71 @@ const GameController = (() => {
         currentPlayer = (currentPlayer === player1) ? player2 : player1;
     };
     
-    return { playRound, getCurrentPlayer: () => currentPlayer };
+    const reset = () => {
+        currentPlayer = player1;
+        gameOver = false;
+        Gameboard.reset();
+    };
+    
+    return { 
+        playRound, 
+        getCurrentPlayer: () => currentPlayer,
+        reset
+    };
+})();
+
+
+const DisplayController = (() => {
+    const gameboardDiv = document.getElementById("gameboard");
+    const resultDiv = document.getElementById("result");
+    const currentPlayerSpan = document.getElementById("current-player");
+    const restartBtn = document.getElementById("restart-btn");
+    
+    const render = () => {
+        gameboardDiv.innerHTML = "";
+        const board = Gameboard.getBoard();
+
+        board.forEach((mark, index) => {
+            const cellDiv = document.createElement("div");
+            cellDiv.classList.add("cell");
+            cellDiv.dataset.index = index;
+            cellDiv.textContent = mark;
+
+            cellDiv.addEventListener("click", () => {
+                const result = GameController.playRound(index);
+                render();
+                updateDisplay();
+                
+                if (result === "win") {
+                    const winner = GameController.getCurrentPlayer();
+                    displayResult(winner.name + " vyhrál!");
+                } else if (result === "draw") {
+                    displayResult("Remíza!");
+                }
+            });
+
+            gameboardDiv.appendChild(cellDiv);
+        });
+    };
+    
+    const updateDisplay = () => {
+        const currentPlayer = GameController.getCurrentPlayer();
+        currentPlayerSpan.textContent = currentPlayer.name;
+    };
+    
+    const displayResult = (message) => {
+        resultDiv.textContent = message;
+    };
+    
+    restartBtn.addEventListener("click", () => {
+        GameController.reset();
+        resultDiv.textContent = "";
+        render();
+        updateDisplay();
+    });
+    
+    render();
+    updateDisplay();
+    
+    return { render, updateDisplay, displayResult };
 })();
