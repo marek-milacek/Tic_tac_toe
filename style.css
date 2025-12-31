@@ -1,0 +1,78 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: #121213;
+    color: #ffffff;
+    font-family: 'Poppins', sans-serif;
+    height: 100vh;
+    display: flex; 
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+h1 {
+    margin-bottom: 20px;
+    font-size: 2.5rem;
+    letter-spacing: 2px;
+}
+
+#gameboard {
+    display: grid;
+    grid-template-columns: repeat(3, 100px);
+    grid-template-rows: repeat(3, 100px); 
+    gap: 10px;
+    background-color: #121213;
+}
+
+.cell {
+    background-color: #3a3a3c;
+    border-radius: 8px;        
+    display: flex;            
+    justify-content: center;
+    align-items: center;
+    font-size: 4rem;           
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.1s;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+}
+
+.cell:hover {
+    background-color: #565658;
+    transform: translateY(-2px);
+}
+
+.cell:active {
+    transform: scale(0.95);
+}
+
+#restart {
+    margin-top: 30px;
+    padding: 12px 24px;
+    background-color: #538d4e;
+    color: white;
+    border: none;
+    border-radius: 50px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: background-color 0.3s, transform 0.1s;
+    box-shadow: 0 4px 15px rgba(83, 141, 78, 0.4);
+}
+
+#restart:hover {
+    background-color: #6aaa64;
+    transform: scale(1.05);
+}
+
+#restart:active {
+    transform: scale(0.95);
+}
