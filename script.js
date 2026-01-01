@@ -2,7 +2,6 @@ const GameBoard = (function() {
     let gameboard = ["", "", "", "", "", "", "", "", ""];
 
     const render = () => {
-        let boardHTML ="";
         gameboard.forEach((square, index) => {
             const cell = document.querySelector(`.cell[data-index="${index}"]`)
             cell.textContent = square
