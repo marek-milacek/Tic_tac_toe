@@ -54,7 +54,10 @@ cells.forEach(cell => {
             const winner = GameBoard.checkWin();
 
             if (winner) {
-                alert(`Vítěz je ${winner}`);
+                setTimeout(() => {
+                    alert(`Vítěz je ${winner}!`);
+                }, 10);
+                return;
             }
 
             if (currentPlayer === 'X') {
